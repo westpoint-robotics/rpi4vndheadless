@@ -1,23 +1,28 @@
 # rpi4vndheadless
-how to convert RPi4 to headless mode with VNC viewer
-0. Configuration
+How to convert RPi4 to headless mode with VNC viewer
+
+### 0. Configuration
 
 - RPi4
 - Ubuntu 22.04
-- 
-1. RealVNC installation
+  
+### 1. RealVNC installation
 
-https://www.realvnc.com/en/connect/download/vnc/
+```http
+ https://www.realvnc.com/en/connect/download/vnc/
+```
+
 
 Get VNC-Server Raspberry Pi / arm64 and download
 Install by running the following command
 
-sudo dpkg -i VNC-Server-<version>-Linux-ARM64.deb
-
-2. If error occurs during the installation of RealVNC
+```http
+ sudo dpkg -i VNC-Server-<version>-Linux-ARM64.deb
+```
+### 2. If error occurs during the installation of RealVNC
 
 Error
-
+```http
 Selecting previously unselected package realvnc-vnc-server.
 (Reading database ... 188247 files and directories currently installed.)
 Preparing to unpack VNC-Server-6.9.1-Linux-ARM64.deb ...
@@ -52,37 +57,43 @@ Processing triggers for desktop-file-utils (0.26-1ubuntu3) ...
 Processing triggers for hicolor-icon-theme (0.17-2) ...
 Processing triggers for man-db (2.10.2-1) ...
 Processing triggers for shared-mime-info (2.1-2) ...
-
-How to solve this problem?
-
+```
+#### How to solve this problem?
+```http
 cd /usr/lib/aarch64-linux-gnu/
 
 sudo ln libvcos.so /usr/lib/libvcos.so.0
 sudo ln libvchiq_arm.so /usr/lib/libvchiq_arm.so.0
 sudo ln libbcm_host.so /usr/lib/libbcm_host.so.0
-
+```
+```http
 sudo nano /etc/gdm3/custom.conf
 WaylandEnable=false # uncomment this line.
-
+```
+```http
 sudo systemctl enable vncserver-virtuald.service
 sudo systemctl enable vncserver-x11-serviced.service
 sudo systemctl start vncserver-virtuald.service
 sudo systemctl start vncserver-x11-serviced.service
 
 sudo reboot
+```
+### 3. To make the RPi4 headless -> create dummy display
 
-3. HDMI가 연결되어 있지 않을 때, VNC 화면이 안뜨는 문제
-RealVNC는 화면을 미러링 하는 방식으로, 본체에 디스플레이 출력이 존재해야 정상적으로 VNC 화면이 출력됩니다.
-소프트웨어적으로 디스플레이 출력을 만듦으로써 해당 문제를 해결할 수 있습니다.
-
+```http
 sudo apt update
 sudo apt install xserver-xorg-video-dummy
 sudo cp /etc/X11/vncserver-virtual-dummy.conf /etc/X11/xorg.conf
 sudo reboot
-4. Dummy 디스플레이 추가 후, HDMI 출력이 안될 때
-Dummy 디스플레이 설정 이후에는 Dummy 디스플레이로 출력되기 때문에, 다시 HDMI로 디스플레이를 출력하기 위해서는 Dummy 디스플레이 설정을 해제하여야 합니다!
+```
 
+### 4. If you want to un-do the headless RPi4
+
+```http
 sudo mv /etc/X11/xorg.conf /etc/X11/xorg.conf.dummy
 sudo reboot
-profile
-roh-j
+```
+
+### 5. Final
+
+Attempt access from the master PC which has RealVNC Viewer to Headless RPi4 with RealVNC Server
