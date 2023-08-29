@@ -1,10 +1,11 @@
 # rpi4vndheadless
-How to convert RPi4 to headless mode with VNC viewer
+How to convert RPi4 to headless mode with RealVNC viewer and server
 
 ### 0. Configuration
 
 - RPi4
 - Ubuntu 22.04
+- Master Computer with RealVNC Viewer installed
   
 ### 1. RealVNC installation
 
@@ -12,8 +13,7 @@ How to convert RPi4 to headless mode with VNC viewer
  https://www.realvnc.com/en/connect/download/vnc/
 ```
 
-
-Get VNC-Server Raspberry Pi / arm64 and download
+Get VNC-Server Raspberry Pi / arm64 and download on Rpi4
 Install by running the following command
 
 ```http
